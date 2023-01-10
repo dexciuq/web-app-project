@@ -12,7 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="quitter" options="-parameters" />
+      <module name="quitter" options="" />
     </option>
   </component>
 </project>
