@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -35,8 +36,8 @@ public class Post {
         this.title = title;
         this.description = description;
         this.imageURL = imageURL;
-        this.comments = comments;
-        this.tags = tags;
+        this.comments = new ArrayList<>();
+        this.tags = new ArrayList<>();
         this.likeCount = likeCount;
         this.creationDate = LocalDateTime.now().format(Main.dataFormatter);
     }

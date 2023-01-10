@@ -17,6 +17,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final String defaultURL = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -26,6 +27,7 @@ public class UserService {
         user.setUserRole(UserRole.USER);
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
         user.setRegistrationDate(LocalDateTime.now().format(Main.dataFormatter));
+        user.getUserProfile().setProfilePictureURL(defaultURL);
         user.setFollowers(new ArrayList<>());
         user.setFollowing(new ArrayList<>());
         user.setPosts(new ArrayList<>());
