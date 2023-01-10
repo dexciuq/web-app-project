@@ -1,10 +1,15 @@
 package com.company.quitter.service;
 
+import com.company.quitter.Main;
 import com.company.quitter.model.User;
+import com.company.quitter.model.enumiration.UserRole;
 import com.company.quitter.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -17,7 +22,13 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User addUser(User user) {
+    public User createUser(User user) {
+        user.setUserRole(UserRole.USER);
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
+        user.setRegistrationDate(LocalDateTime.now().format(Main.dataFormatter));
+        user.setFollowers(new ArrayList<>());
+        user.setFollowing(new ArrayList<>());
+        user.setPosts(new ArrayList<>());
         return userRepository.save(user);
     }
 

@@ -22,7 +22,7 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public User addUser(@RequestBody User user) {
-        return userService.addUser(user);
+        return userService.createUser(user);
     }
 
     @GetMapping("/{id}")

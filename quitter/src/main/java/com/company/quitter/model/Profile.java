@@ -17,10 +17,11 @@ public class Profile {
     private String aboutMe;
     private String profilePictureURL;
 
-    public Profile(String name, String surname, LocalDateTime DOB, String address) {
+    public Profile(String name, String surname, String DOB, String address) {
         this.name = name;
         this.surname = surname;
-        this.DOB = DOB.format(Main.dataFormatter);
+        this.DOB = DOB;
+        //this.DOB = DOB.format(Main.dataFormatter);
         this.address = address;
         this.profilePictureURL = defaultURL;
     }

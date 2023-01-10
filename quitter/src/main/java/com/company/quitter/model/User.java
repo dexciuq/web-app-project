@@ -37,24 +37,27 @@ public class User {
     @DBRef
     private List<Post> posts;
 
-    public User(String username,
+    public User(UserRole userRole,
+                String username,
                 String email,
                 String phoneNumber,
                 String password,
-                Profile userProfile) {
-        this.userRole = UserRole.USER;
+                String registrationDate,
+                Profile userProfile,
+                List<User> followers,
+                List<User> following,
+                List<Post> posts) {
+        this.userRole = userRole;
         this.username = username;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;
-        this.registrationDate = LocalDateTime.now().format(Main.dataFormatter);
+        this.registrationDate = registrationDate;
         this.userProfile = userProfile;
-        this.followers = new ArrayList<>();
-        this.following = new ArrayList<>();
-        this.posts = new ArrayList<>();
+        this.followers = followers;
+        this.following = following;
+        this.posts = posts;
     }
-
-
 }
 
 
