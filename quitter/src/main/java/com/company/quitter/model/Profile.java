@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 
 @Data
 public class Profile {
-    private final String defaultURL = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
     private String name;
     private String surname;
     private String DOB;
@@ -23,6 +22,5 @@ public class Profile {
         this.DOB = DOB;
         //this.DOB = DOB.format(Main.dataFormatter);
         this.address = address;
-        this.profilePictureURL = defaultURL;
     }
 }
