@@ -30,7 +30,8 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-
+    @PatchMapping("/{id}")
+    public User updateUser(@PathVariable String id, @RequestBody User user) {return userService.partialUpdateUser(id, user); }
 
     @DeleteMapping("/{id}")
     public String deleteUserById(@PathVariable String id) {
