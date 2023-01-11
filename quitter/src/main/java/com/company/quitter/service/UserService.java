@@ -5,6 +5,7 @@ import com.company.quitter.model.User;
 import com.company.quitter.model.enumiration.UserRole;
 import com.company.quitter.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,15 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public List<User> getAllUsers(String field) {
+        Sort.Direction direction = Sort.Direction.ASC;
+        if (field.charAt(0) == '-') {
+            direction = Sort.Direction.DESC;
+            field = field.substring(1);
+        }
+        return userRepository.findAll(Sort.by(direction, field));
     }
 
     public User createUser(User user) {
@@ -40,10 +50,6 @@ public class UserService {
 
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
-    }
-
-    public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
     }
 
     public String deleteUser(String id) {
