@@ -57,17 +57,16 @@ public class UserService {
         if (body.getPhoneNumber() != null) user.setPhoneNumber(body.getPhoneNumber());
         if (body.getPassword() != null) user.setPassword(body.getPassword());
 
-        if (bodyProfile == null) {
-            return user;
+        if (bodyProfile != null) {
+            if (bodyProfile.getAboutMe() != null) profile.setAboutMe(bodyProfile.getAboutMe());
+            if (bodyProfile.getName() != null) profile.setName(bodyProfile.getName());
+            if (bodyProfile.getSurname() != null) profile.setSurname(bodyProfile.getSurname());
+            if (bodyProfile.getDOB() != null) profile.setDOB(bodyProfile.getDOB());
+            if (bodyProfile.getDegree() != null) profile.setDegree(bodyProfile.getDegree());
+            if (bodyProfile.getAddress() != null) profile.setAddress(bodyProfile.getAddress());
+            if (bodyProfile.getProfilePictureURL() != null) profile.setProfilePictureURL(bodyProfile.getProfilePictureURL());
         }
-
-        if (body.getUserProfile().getAboutMe() != null) profile.setAboutMe(bodyProfile.getAboutMe());
-        if (body.getUserProfile().getName() != null) profile.setName(bodyProfile.getName());
-        if (body.getUserProfile().getSurname() != null) profile.setSurname(bodyProfile.getSurname());
-        if (body.getUserProfile().getDOB() != null) profile.setDOB(bodyProfile.getDOB());
-        if (body.getUserProfile().getDegree() != null) profile.setDegree(bodyProfile.getDegree());
-        if (body.getUserProfile().getAddress() != null) profile.setAddress(bodyProfile.getAddress());
-        if (body.getUserProfile().getProfilePictureURL() != null) profile.setProfilePictureURL(bodyProfile.getProfilePictureURL());
+            userRepository.save(user);
 
             return user;
     }
