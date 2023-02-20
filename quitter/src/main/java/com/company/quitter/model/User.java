@@ -4,6 +4,7 @@ import com.company.quitter.model.enumiration.UserRole;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 
@@ -21,11 +22,11 @@ public class User {
     private String password;
     private String registrationDate;
     private Profile userProfile;
-   // @DBRef
+    @DBRef
     private List<User> followers;
-  //  @DBRef
+    @DBRef
     private List<User> following;
-  //  @DBRef
+    @DBRef
     private List<Post> posts;
 
     public User(UserRole userRole,

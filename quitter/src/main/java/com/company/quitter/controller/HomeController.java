@@ -16,5 +16,4 @@ public class HomeController {
     public String index(Model model) {
         return "index";
     }
-
 }
