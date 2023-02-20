@@ -33,7 +33,7 @@ public class Post {
         this.description = description;
         this.imageURL = imageURL;
         this.comments = new ArrayList<>();
-        this.tags = new ArrayList<>();
+        this.tags = tags;
         this.likeCount = likeCount;
         this.creationDate = LocalDateTime.now().format(Main.dataFormatter);
     }

@@ -23,7 +23,6 @@ public class UserController {
     public List<User> getAllUsers(
             @RequestParam(name = "sort", required = false) String sortBy,
             @RequestParam(name = "direction", required = false) String sortDirection,
-            @RequestParam(name = "search", required = false) String searchField,
             @RequestParam(name = "page", required = false) Integer page,
             @RequestParam(name = "page_size", required = false) Integer pageSize) {
 
@@ -38,6 +37,11 @@ public class UserController {
             query.limit(pageSize);
         }
         return mongoTemplate.find(query, User.class);
+    }
+
+    @GetMapping("/search")
+    public User getUserByUsername(@RequestParam(value = "username") String username) {
+        return userService.getUserByUsername(username);
     }
 
     @GetMapping("/{id}")
