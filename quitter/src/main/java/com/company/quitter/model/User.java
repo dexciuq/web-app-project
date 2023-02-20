@@ -1,19 +1,10 @@
 package com.company.quitter.model;
 
-
-import com.company.quitter.Main;
 import com.company.quitter.model.enumiration.UserRole;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -30,11 +21,11 @@ public class User {
     private String password;
     private String registrationDate;
     private Profile userProfile;
-    @DBRef
+   // @DBRef
     private List<User> followers;
-    @DBRef
+  //  @DBRef
     private List<User> following;
-    @DBRef
+  //  @DBRef
     private List<Post> posts;
 
     public User(UserRole userRole,

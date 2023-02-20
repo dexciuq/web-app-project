@@ -18,7 +18,7 @@ public class Comment {
     @Id
     private String id;
     private List<Comment> comments;
-    @DBRef
+    // @DBRef
     private String userID;
     private String text;
     private int likeCount;

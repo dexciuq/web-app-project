@@ -3,7 +3,9 @@ package com.company.quitter.controller;
 import com.company.quitter.model.User;
 import com.company.quitter.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,21 +15,29 @@ import java.util.List;
 @RequestMapping("/users")
 @AllArgsConstructor
 public class UserController {
+
+    private final MongoTemplate mongoTemplate;
     private final UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
-    }
+    @GetMapping
+    public List<User> getAllUsers(
+            @RequestParam(name = "sort", required = false) String sortBy,
+            @RequestParam(name = "direction", required = false) String sortDirection,
+            @RequestParam(name = "search", required = false) String searchField,
+            @RequestParam(name = "page", required = false) Integer page,
+            @RequestParam(name = "page_size", required = false) Integer pageSize) {
 
-    @GetMapping("/sort")
-    public List<User> getSortedByField(@RequestParam(value = "field") String field) {
-        return userService.getAllUsers(field);
-    }
-
-    @GetMapping("/search")
-    public User getUserByUsername(@RequestParam(value = "username") String username) {
-        return userService.getUserByUsername(username);
+        Query query = new Query();
+        if (sortBy != null) {
+            Sort sort = Sort.by(sortDirection.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
+            query.with(sort);
+        }
+        if (page != null && pageSize != null) {
+            if (page < 1) page = 1;
+            query.skip((page - 1) * pageSize);
+            query.limit(pageSize);
+        }
+        return mongoTemplate.find(query, User.class);
     }
 
     @GetMapping("/{id}")
@@ -42,7 +52,9 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public User updateUser(@PathVariable String id, @RequestBody User user) {return userService.partialUpdateUser(id, user); }
+    public User updateUser(@PathVariable String id, @RequestBody User user) {
+        return userService.partialUpdateUser(id, user);
+    }
 
     @DeleteMapping("/{id}")
     public String deleteUserById(@PathVariable String id) {
