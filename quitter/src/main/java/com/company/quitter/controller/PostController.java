@@ -40,8 +40,8 @@ public class PostController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Post addPost(@RequestBody Post post, Authentication authentication) {
-        return postService.createPost(post, authentication.getName());
+    public Post addPost(@RequestBody Post post) {
+        return postService.createPost(post, "basswallace@eargo.com");
     }
 
     @PatchMapping("/{id}")
@@ -49,6 +49,6 @@ public class PostController {
 
     @DeleteMapping("/{id}")
     public String deleteUserById(@PathVariable String id) {
-        return postService.deletePost(id);
+        return postService.deletePost(id, "basswallace@eargo.com");
     }
 }

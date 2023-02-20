@@ -24,6 +24,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserService userService;
+    private final UserRepository userRepository;
 
     public List<Post> getAllPosts() {
         return postRepository.findAll();
@@ -42,15 +43,20 @@ public class PostService {
 
         User user = userService.getUserByEmail(email);
 
-        List<Post> newPosts = user.getPosts();
-        newPosts.add(post);
-        user.setPosts(newPosts);
+        System.out.println(user.getUsername());
+        System.out.println(post.getTitle());
 
         post.setLikeCount(0);
         post.setCreationDate(LocalDateTime.now().format(Main.dataFormatter));
         post.setComments(new ArrayList<>());
-        post.setTags(new HashSet<>());
-        return postRepository.save(post);
+
+        // Saving the post in the MongoDB, now we have the ID and can add it to the array of posts in the User model.
+        Post postToSave = postRepository.save(post);
+
+        user.getPosts().add(postToSave);
+        userRepository.save(user);
+
+        return postToSave;
     }
 
     public Post getPostById(String id) {
@@ -79,7 +85,13 @@ public class PostService {
         return post;
     }
 
-    public String deletePost(String id) {
+    public String deletePost(String id, String email) {
+        User user = userService.getUserByEmail(email);
+
+        Post postToDelete = getPostById(id);
+        user.getPosts().remove(postToDelete);
+        userRepository.save(user);
+
         postRepository.deleteById(id);
         return "Post has been successfully deleted by id " + id;
     }
