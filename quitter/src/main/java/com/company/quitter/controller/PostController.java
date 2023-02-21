@@ -53,15 +53,15 @@ public class PostController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Post addPost(@RequestBody Post post) {
-        return postService.createPost(post, "basswallace@eargo.com");
+    public Post addPost(@RequestBody Post post, Authentication authentication) {
+        return postService.createPost(post, authentication.getName());
     }
 
     @PatchMapping("/{id}")
     public Post updatePost(@PathVariable String id, @RequestBody Post post) {return postService.partialUpdatePost(id, post); }
 
     @DeleteMapping("/{id}")
-    public String deleteUserById(@PathVariable String id) {
-        return postService.deletePost(id, "basswallace@eargo.com");
+    public String deleteUserById(@PathVariable String id, Authentication authentication) {
+        return postService.deletePost(id, authentication.getName());
     }
 }
