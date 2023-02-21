@@ -2,25 +2,21 @@ package com.company.quitter.service;
 
 import com.company.quitter.Main;
 import com.company.quitter.model.Post;
-import com.company.quitter.model.Profile;
 import com.company.quitter.model.User;
-import com.company.quitter.model.enumiration.UserRole;
 import com.company.quitter.repository.PostRepository;
 import com.company.quitter.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
 @Service
-public class PostService {
+public class CommentService {
 
     private final PostRepository postRepository;
     private final UserService userService;

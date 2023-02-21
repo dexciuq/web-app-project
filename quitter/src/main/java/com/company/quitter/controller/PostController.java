@@ -28,6 +28,16 @@ public class PostController {
         return postService.getAllPosts(field);
     }
 
+    @GetMapping("/search")
+    public List<Post> getPostsByTag(@RequestParam(value = "field") String field) {
+        return postService.getPostsByTag(field);
+    }
+
+    @GetMapping("/search")
+    public Post getPostsByTitle(@RequestParam(value = "field") String field) {
+        return postService.getPostByTitle(field);
+    }
+
 //    @GetMapping("/search")
 //    public User getUserByUsername(@RequestParam(value = "username") String username) {
 //        return userService.getUserByUsername(username);

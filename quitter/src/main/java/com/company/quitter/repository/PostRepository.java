@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface PostRepository extends MongoRepository<Post, String> {
     @Query("{'title': ?0}")
-    Post findByTitle(String title);
+    List<Post> findByTitle(String title);
 
     @Query("{'tags': { $in: [?0] } }")
     List<Post> findByTag(String tag);
