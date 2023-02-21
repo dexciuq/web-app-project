@@ -17,6 +17,7 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<User> getAllUsers() {
+        System.out.println("Something");
         return userService.getAllUsers();
     }
 

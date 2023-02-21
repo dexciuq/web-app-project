@@ -1,6 +1,7 @@
 package com.company.quitter.service;
 
 import com.company.quitter.Main;
+import com.company.quitter.model.Post;
 import com.company.quitter.model.Profile;
 import com.company.quitter.model.User;
 import com.company.quitter.model.enumiration.UserRole;
@@ -17,7 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 @Service
 public class UserService {
-
     private final UserRepository userRepository;
     private final String defaultURL = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 
@@ -38,7 +38,7 @@ public class UserService {
         user.setUserRole(UserRole.USER);
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
         user.setRegistrationDate(LocalDateTime.now().format(Main.dataFormatter));
-        user.getUserProfile().setProfilePictureURL(defaultURL);
+        if (user.getUserProfile().getProfilePictureURL() == null) user.getUserProfile().setProfilePictureURL(defaultURL);
         user.setFollowers(new ArrayList<>());
         user.setFollowing(new ArrayList<>());
         user.setPosts(new ArrayList<>());
@@ -76,9 +76,10 @@ public class UserService {
             if (bodyProfile.getAddress() != null) profile.setAddress(bodyProfile.getAddress());
             if (bodyProfile.getProfilePictureURL() != null) profile.setProfilePictureURL(bodyProfile.getProfilePictureURL());
         }
-            userRepository.save(user);
 
-            return user;
+        userRepository.save(user);
+
+        return user;
     }
 
     public String deleteUser(String id) {

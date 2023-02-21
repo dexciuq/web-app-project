@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Document(collection = "posts")
@@ -21,7 +22,7 @@ public class Post {
     private String description;
     private String imageURL;
     private List<Comment> comments;
-    private List<String> tags;
+    private Set<String> tags;
     private int likeCount;
     private String creationDate;
 
@@ -30,15 +31,16 @@ public class Post {
                 String description,
                 String imageURL,
                 List<Comment> comments,
-                List<String> tags,
+                Set<String> tags,
+                String creationDate,
                 int likeCount) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.imageURL = imageURL;
-        this.comments = new ArrayList<>();
-        this.tags = new ArrayList<>();
+        this.comments = comments;
+        this.tags = tags;
         this.likeCount = likeCount;
-        this.creationDate = LocalDateTime.now().format(Main.dataFormatter);
+        this.creationDate = creationDate;
     }
 }
