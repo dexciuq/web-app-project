@@ -18,7 +18,7 @@ public class UserController {
 
     private final MongoTemplate mongoTemplate;
     private final UserService userService;
-
+    
     @GetMapping
     public List<User> getAllUsers(
             @RequestParam(name = "sort", required = false) String sortBy,
