@@ -29,14 +29,17 @@ public class PostController {
     }
 
     @GetMapping("/search")
-    public List<Post> getPostsByTag(@RequestParam(value = "field") String field) {
-        return postService.getPostsByTag(field);
+    public List<Post> getPostsByTag(@RequestParam(value = "tag", required = false) String tagName,
+                                    @RequestParam(value = "title", required = false) String titleName) {
+
+        if (tagName != null) return postService.getPostsByTag(tagName);
+        else return postService.getPostsByTitle(titleName);
     }
 
-    @GetMapping("/search")
-    public List<Post> getPostsByTitle(@RequestParam(value = "field") String field) {
-        return postService.getPostsByTitle(field);
-    }
+//    @GetMapping("/search")
+//    public List<Post> getPostsByTitle(@RequestParam(value = "field") String field) {
+//        return postService.getPostsByTitle(field);
+//    }
 
 //    @GetMapping("/search")
 //    public User getUserByUsername(@RequestParam(value = "username") String username) {
