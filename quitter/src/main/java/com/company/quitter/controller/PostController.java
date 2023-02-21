@@ -34,8 +34,8 @@ public class PostController {
     }
 
     @GetMapping("/search")
-    public Post getPostsByTitle(@RequestParam(value = "field") String field) {
-        return postService.getPostByTitle(field);
+    public List<Post> getPostsByTitle(@RequestParam(value = "field") String field) {
+        return postService.getPostsByTitle(field);
     }
 
 //    @GetMapping("/search")
