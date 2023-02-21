@@ -1,6 +1,6 @@
 package com.company.quitter.controller;
 
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 
     @GetMapping("/healthcheck")
-    public String healthCheck() {
-        return "Server running on port :8080";
+    public ResponseEntity<?> healthCheck() {
+        return ResponseEntity.ok("Server running on port :8080");
     }
 
     @GetMapping("/index")
-    public String index(Model model) {
+    public String index() {
         return "index";
     }
 }

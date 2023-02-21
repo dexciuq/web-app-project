@@ -1,16 +1,27 @@
 package com.company.quitter.model;
 
 import com.company.quitter.model.enumiration.UserRole;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
 import java.util.List;
 
 @Data
+@Builder
 @Document(collection = "users")
-public class User {
+@NoArgsConstructor
+@AllArgsConstructor
+public class User implements UserDetails {
     @Id
     private String id;
     private UserRole userRole;
@@ -29,26 +40,39 @@ public class User {
     @DBRef
     private List<Post> posts;
 
-    public User(UserRole userRole,
-                String username,
-                String email,
-                String phoneNumber,
-                String password,
-                String registrationDate,
-                Profile userProfile,
-                List<User> followers,
-                List<User> following,
-                List<Post> posts) {
-        this.userRole = userRole;
-        this.username = username;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.password = password;
-        this.registrationDate = registrationDate;
-        this.userProfile = userProfile;
-        this.followers = followers;
-        this.following = following;
-        this.posts = posts;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(userRole.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
 

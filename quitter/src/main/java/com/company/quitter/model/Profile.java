@@ -1,26 +1,25 @@
 package com.company.quitter.model;
 
-import com.company.quitter.Main;
 import com.company.quitter.model.enumiration.Degree;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
+@Builder
+@AllArgsConstructor
 public class Profile {
     private String name;
     private String surname;
-    private String DOB;
+    private String dob;
     private Degree degree;
     private String address;
     private String aboutMe;
     private String profilePictureURL;
 
-    public Profile(String name, String surname, String DOB, String address) {
+    public Profile(String name, String surname, String dob) {
         this.name = name;
         this.surname = surname;
-        this.DOB = DOB;
-        //this.DOB = DOB.format(Main.dataFormatter);
-        this.address = address;
+        this.dob = dob;
     }
 }

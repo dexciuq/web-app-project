@@ -23,7 +23,7 @@ public class UserService {
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
         user.setRegistrationDate(LocalDateTime.now().format(Main.dataFormatter));
         String defaultURL = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
-        user.getUserProfile().setProfilePictureURL(defaultURL);
+        if (user.getUserProfile().getProfilePictureURL() == null) user.getUserProfile().setProfilePictureURL(defaultURL);
         user.setFollowers(new ArrayList<>());
         user.setFollowing(new ArrayList<>());
         user.setPosts(new ArrayList<>());
@@ -35,11 +35,11 @@ public class UserService {
     }
 
     public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsername(username).get();
     }
 
     public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmail(email).get();
     }
 
     public User partialUpdateUser(String id, User body) {
@@ -53,7 +53,7 @@ public class UserService {
             if (bodyProfile.getAboutMe() != null) profile.setAboutMe(bodyProfile.getAboutMe());
             if (bodyProfile.getName() != null) profile.setName(bodyProfile.getName());
             if (bodyProfile.getSurname() != null) profile.setSurname(bodyProfile.getSurname());
-            if (bodyProfile.getDOB() != null) profile.setDOB(bodyProfile.getDOB());
+            if (bodyProfile.getDob() != null) profile.setDob(bodyProfile.getDob());
             if (bodyProfile.getDegree() != null) profile.setDegree(bodyProfile.getDegree());
             if (bodyProfile.getAddress() != null) profile.setAddress(bodyProfile.getAddress());
             if (bodyProfile.getProfilePictureURL() != null) profile.setProfilePictureURL(bodyProfile.getProfilePictureURL());
