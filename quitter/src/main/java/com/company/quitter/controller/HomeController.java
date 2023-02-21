@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class DefaultController {
+public class HomeController {
     @RequestMapping("/healthcheck")
     public String healthCheck() {
         return "Server running on port :8080";
