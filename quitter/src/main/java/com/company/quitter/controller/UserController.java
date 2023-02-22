@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -38,6 +39,11 @@ public class UserController {
     @GetMapping("/search")
     public ResponseEntity<?> getUserByUsername(@RequestParam(value = "username") String username) {
         return ResponseEntity.ok(userService.getUserByUsername(username));
+    }
+
+    @PostMapping("/follow/{username}")
+    public ResponseEntity<?> followUser(Authentication authentication, @PathVariable String username) {
+        return new ResponseEntity<>(userService.follow(authentication.getName(), username), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/{id}")

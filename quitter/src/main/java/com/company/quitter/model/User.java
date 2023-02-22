@@ -2,6 +2,7 @@ package com.company.quitter.model;
 
 import com.company.quitter.model.enumiration.UserRole;
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,7 +46,6 @@ public class User implements UserDetails {
     private List<User> following;
     @DBRef
     private List<Post> posts;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

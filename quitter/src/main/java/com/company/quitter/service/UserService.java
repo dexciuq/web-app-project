@@ -6,6 +6,7 @@ import com.company.quitter.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,5 +53,22 @@ public class UserService {
     public String deleteUser(String id) {
         userRepository.deleteById(id);
         return "User has been successfully by id " + id;
+    }
+
+    public String follow(String username, String followUsername) {
+        User currUser = userRepository.findByUsername(username).get();
+        Optional<User> userToFollow = userRepository.findByUsername(followUsername);
+
+        if (userToFollow.isEmpty())
+            return "This user has been deleted or wrong username";
+
+        User user = userToFollow.get();
+        currUser.getFollowers().add(user);
+        user.getFollowing().add(currUser);
+
+        userRepository.save(currUser);
+        userRepository.save(user);
+
+        return "User with username " + user.getUsername() + " was successfully add to your following list";
     }
 }
