@@ -26,7 +26,7 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public Optional<User> partialUpdateUser(String id, User body) {
+    public Optional<User> update(String id, User body) {
         Optional<User> optional = getUserById(id);
         if (optional.isEmpty())
             return Optional.empty();
@@ -50,7 +50,7 @@ public class UserService {
         return Optional.of(user);
     }
 
-    public String deleteUser(String id) {
+    public String delete(String id) {
         userRepository.deleteById(id);
         return "User has been successfully by id " + id;
     }

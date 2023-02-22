@@ -52,13 +52,17 @@ public class UserController {
     }
 
     @PostMapping("/follow/{username}")
-    public ResponseEntity<?> followUser(Authentication authentication, @PathVariable String username) {
-        return new ResponseEntity<>(userService.follow(authentication.getName(), username), HttpStatus.ACCEPTED);
+    public ResponseEntity<?> followUser(@PathVariable String username,
+                                        Authentication authentication) {
+        return new ResponseEntity<>(userService.follow(authentication.getName(), username),
+                HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/unfollow/{username}")
-    public ResponseEntity<?> unfollowUser(Authentication authentication, @PathVariable String username) {
-        return new ResponseEntity<>(userService.unfollow(authentication.getName(), username), HttpStatus.ACCEPTED);
+    public ResponseEntity<?> unfollowUser(@PathVariable String username,
+                                          Authentication authentication) {
+        return new ResponseEntity<>(userService.unfollow(authentication.getName(), username),
+                HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/{id}")
@@ -67,12 +71,29 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody User user) {
-        return ResponseEntity.ok(userService.partialUpdateUser(id, user));
+    public ResponseEntity<?> updateUser(@PathVariable String id,
+                                        @RequestBody User user,
+                                        Authentication authentication) {
+        String authId = userService
+                .getUserByUsername(authentication.getName())
+                .get().getId();
+
+        if (!authId.equals(id))
+            return new ResponseEntity<>("You can modify only your account", HttpStatus.BAD_REQUEST);
+
+        return ResponseEntity.ok(userService.update(id, user));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUserById(@PathVariable String id) {
-        return ResponseEntity.ok(userService.deleteUser(id));
+    public ResponseEntity<?> deleteUserById(@PathVariable String id,
+                                            Authentication authentication) {
+        String authId = userService.
+                getUserByUsername(authentication.getName())
+                .get().getId();
+
+        if (!authId.equals(id))
+            return new ResponseEntity<>("You can delete only your account", HttpStatus.BAD_REQUEST);
+
+        return ResponseEntity.ok(userService.delete(id));
     }
 }
