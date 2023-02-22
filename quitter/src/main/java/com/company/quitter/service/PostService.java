@@ -35,9 +35,9 @@ public class PostService {
         return postRepository.findAll(Sort.by(direction, field));
     }
 
-    public Post createPost(Post post, String email) {
+    public Post createPost(Post post, String username) {
 
-        User user = userService.getUserByEmail(email).get();
+        User user = userService.getUserByUsername(username).get();
 
         System.out.println(user);
         System.out.println(post.getTitle());
@@ -93,8 +93,8 @@ public class PostService {
         return post;
     }
 
-    public String deletePost(String id, String email) {
-        User user = userService.getUserByEmail(email).get();
+    public String deletePost(String id, String username) {
+        User user = userService.getUserByUsername(username).get();
 
         Post postToDelete = getPostById(id);
         user.getPosts().remove(postToDelete);

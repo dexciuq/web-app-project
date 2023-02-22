@@ -54,6 +54,7 @@ public class PostController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Post addPost(@RequestBody Post post, Authentication authentication) {
+        System.out.println(authentication.getName());
         return postService.createPost(post, authentication.getName());
     }
 
