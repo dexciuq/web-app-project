@@ -4,6 +4,7 @@ import com.company.quitter.util.request.AuthenticationRequest;
 import com.company.quitter.util.request.RegisterRequest;
 import com.company.quitter.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -37,7 +37,7 @@ public class PostService {
 
     public Post createPost(Post post, String email) {
 
-        User user = userService.getUserByEmail(email);
+        User user = userService.getUserByEmail(email).get();
 
         System.out.println(user);
         System.out.println(post.getTitle());
@@ -94,7 +94,7 @@ public class PostService {
     }
 
     public String deletePost(String id, String email) {
-        User user = userService.getUserByEmail(email);
+        User user = userService.getUserByEmail(email).get();
 
         Post postToDelete = getPostById(id);
         user.getPosts().remove(postToDelete);

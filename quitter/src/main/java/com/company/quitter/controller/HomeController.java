@@ -11,9 +11,4 @@ public class HomeController {
     public ResponseEntity<?> healthCheck() {
         return ResponseEntity.ok("Server running on port :8080");
     }
-
-    @GetMapping("/index")
-    public String index() {
-        return "index";
-    }
 }

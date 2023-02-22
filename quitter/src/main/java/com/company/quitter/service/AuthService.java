@@ -69,7 +69,10 @@ public class AuthService {
             )
         );
         Optional<User> optionalUser = userRepository.findByUsername(request.getUsername());
-        if (optionalUser.isEmpty()) throw new IllegalArgumentException("User not found");
+        if (optionalUser.isEmpty())
+            return AuthenticationResponse.builder()
+                    .token("")
+                    .build();
 
         User user = optionalUser.get();
         String jwtToken = tokenService.generateToken(user);

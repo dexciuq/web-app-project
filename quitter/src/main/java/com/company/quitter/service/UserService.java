@@ -1,48 +1,36 @@
 package com.company.quitter.service;
 
-import com.company.quitter.Main;
 import com.company.quitter.model.Profile;
 import com.company.quitter.model.User;
-import com.company.quitter.model.enumiration.UserRole;
 import com.company.quitter.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
 
-    public User createUser(User user) {
-        user.setUserRole(UserRole.USER);
-        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
-        user.setRegistrationDate(LocalDateTime.now().format(Main.dataFormatter));
-        String defaultURL = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
-        if (user.getUserProfile().getProfilePictureURL() == null) user.getUserProfile().setProfilePictureURL(defaultURL);
-        user.setFollowers(new ArrayList<>());
-        user.setFollowing(new ArrayList<>());
-        user.setPosts(new ArrayList<>());
-        return userRepository.save(user);
+    public Optional<User> getUserById(String id) {
+        return userRepository.findById(id);
     }
 
-    public User getUserById(String id) {
-        return userRepository.findById(id).get();
+    public Optional<User> getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
-    public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username).get();
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
-    public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email).get();
-    }
+    public Optional<User> partialUpdateUser(String id, User body) {
+        Optional<User> optional = getUserById(id);
+        if (optional.isEmpty())
+            return Optional.empty();
 
-    public User partialUpdateUser(String id, User body) {
-        User user = getUserById(id);
+        User user = optional.get();
         Profile profile = user.getUserProfile();
         Profile bodyProfile = body.getUserProfile();
         if (body.getEmail() != null) user.setEmail(body.getEmail());
@@ -58,7 +46,7 @@ public class UserService {
             if (bodyProfile.getProfilePictureURL() != null) profile.setProfilePictureURL(bodyProfile.getProfilePictureURL());
         }
         userRepository.save(user);
-        return user;
+        return Optional.of(user);
     }
 
     public String deleteUser(String id) {

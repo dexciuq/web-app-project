@@ -7,9 +7,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -20,7 +19,7 @@ public class UserController {
     private final UserService userService;
     
     @GetMapping
-    public List<User> getAllUsers(
+    public ResponseEntity<?> getAllUsers(
             @RequestParam(name = "sort", required = false) String sortBy,
             @RequestParam(name = "direction", required = false) String sortDirection,
             @RequestParam(name = "page", required = false) Integer page,
@@ -36,32 +35,26 @@ public class UserController {
             query.skip((page - 1) * pageSize);
             query.limit(pageSize);
         }
-        return mongoTemplate.find(query, User.class);
+        return ResponseEntity.ok(mongoTemplate.find(query, User.class));
     }
 
     @GetMapping("/search")
-    public User getUserByUsername(@RequestParam(value = "username") String username) {
-        return userService.getUserByUsername(username);
+    public ResponseEntity<?> getUserByUsername(@RequestParam(value = "username") String username) {
+        return ResponseEntity.ok(userService.getUserByUsername(username));
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable String id) {
-        return userService.getUserById(id);
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public User addUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public ResponseEntity<?> getUserById(@PathVariable String id) {
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @PatchMapping("/{id}")
-    public User updateUser(@PathVariable String id, @RequestBody User user) {
-        return userService.partialUpdateUser(id, user);
+    public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody User user) {
+        return ResponseEntity.ok(userService.partialUpdateUser(id, user));
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUserById(@PathVariable String id) {
-        return userService.deleteUser(id);
+    public ResponseEntity<?> deleteUserById(@PathVariable String id) {
+        return ResponseEntity.ok(userService.deleteUser(id));
     }
 }
