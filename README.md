@@ -2,11 +2,11 @@
 
 ## Entity-Relationship diagram (ERD):
 
-![NoSQL - Database ER diagram](https://user-images.githubusercontent.com/85491176/209480469-4b5274cc-ed02-4bcb-89bd-9cd0986aaea7.png)
+![NoSQL - Database ER diagram](https://raw.githubusercontent.com/dexciuq/web-app-project/presentation/NoSQL%20-%20Database%20ER%20diagram%20(Updated).png)
 
 ## Collection-Relationship Diagram (CRD):
 
-![NoSQL - Collection ER diagram](https://user-images.githubusercontent.com/85491176/209480471-7141fb10-3cd5-414a-9950-be6b8eb3ba6a.png)
+![NoSQL - Collection ER diagram](https://raw.githubusercontent.com/dexciuq/web-app-project/presentation/NoSQL%20-%20Collection%20ER%20diagram%20(Updated).png)
 
 ## Workload
 
@@ -27,6 +27,18 @@ _Workload: quantify/qualify the queries_
 5. _Loading the news feed_. No more than 2 requests per day. Since it will be necessary to upload not only text, but also photos, rendering can take up to 3 seconds per post.
 6._ Ability to see likes and comments_. Approximately 20 requests per day will be enough for testing. Since this is a get request, the operation should take no longer than 1 second.
 7. _The ability to add to favorites, comment_. As usual, 20 requests will be enough. Since this is an addition to the database, the operation should take no longer than 1 second.
+
+## Users Endpoints
+
+![Users Endpoints](https://raw.githubusercontent.com/dexciuq/web-app-project/presentation/Users%20Endpoints.jpg)
+
+## Posts Endpoints
+
+![Posts Endpoints](https://raw.githubusercontent.com/dexciuq/web-app-project/presentation/Posts%20Endpoints.jpg)
+
+## Other Endpoints
+
+![Other Endpoints](https://raw.githubusercontent.com/dexciuq/web-app-project/presentation/Other%20Endpoints.jpg)
 
 ## Relationship models
 
