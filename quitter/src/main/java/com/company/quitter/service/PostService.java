@@ -39,7 +39,7 @@ public class PostService {
     // of posts in the user model.
     public Post createPost(Post post, String username) {
         // Finding the user by the username.
-        User user = userService.getUserByUsername(username);
+        User user = userService.getUserByUsername(username).get();
         // Adding the owner based on the username string.
         post.setPostOwner(user);
 
@@ -78,7 +78,7 @@ public class PostService {
     }
 
     public Post partialUpdatePost(String id, Post body, String email) {
-        User user = userService.getUserByEmail(email);
+        User user = userService.getUserByEmail(email).get();
         Post post = getPostById(id);
 
         if (!isOwner(user, post))

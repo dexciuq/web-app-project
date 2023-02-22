@@ -23,7 +23,7 @@ public class PostController {
     private final MongoTemplate mongoTemplate;
     private final PostService postService;
     @GetMapping
-    public List<Post> getAllPosts(
+    public ResponseEntity<?> getAllPosts(
             @RequestParam(name = "sort", required = false) String sortBy,
             @RequestParam(name = "direction", required = false) String sortDirection,
             @RequestParam(name = "page", required = false) Integer page,
@@ -38,31 +38,39 @@ public class PostController {
             query.skip((page - 1) * pageSize);
             query.limit(pageSize);
         }
-        return mongoTemplate.find(query, Post.class);
+        return ResponseEntity.ok(mongoTemplate.find(query, Post.class));
     }
 
-    @GetMapping("/sort")
-    public List<Post> getSortedByField(@RequestParam(value = "field") String field) {
-        return postService.getAllPosts(field);
-    }
+//    @GetMapping("/sort")
+//    public List<Post> getSortedByField(@RequestParam(value = "field") String field) {
+//        return postService.getAllPosts(field);
+//    }
+
+//    @GetMapping("/search")
+//    public List<Post> getPostsByTag(@RequestParam(value = "tag", required = false) String tagName,
+//                                    @RequestParam(value = "title", required = false) String titleName) {
+//
+//        if (tagName != null) return postService.getPostsByTag(tagName);
+//        else return postService.getPostsByTitle(titleName);
+//    }
 
     @GetMapping("/search")
-    public List<Post> getPostsByTag(@RequestParam(value = "tag", required = false) String tagName,
+    public ResponseEntity<?> getPostsByTag(@RequestParam(value = "tag", required = false) String tagName,
                                     @RequestParam(value = "title", required = false) String titleName) {
 
-        if (tagName != null) return postService.getPostsByTag(tagName);
-        else return postService.getPostsByTitle(titleName);
+        if (tagName != null) return ResponseEntity.ok(postService.getPostsByTag(tagName));
+
+        return ResponseEntity.ok(postService.getPostsByTitle(titleName));
     }
 
     @GetMapping("/{id}")
-    public Post getPostById(@PathVariable String id) {
-        return postService.getPostById(id);
+    public ResponseEntity<?> getPostById(@PathVariable String id) {
+        return ResponseEntity.ok(postService.getPostById(id));
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Post addPost(@RequestBody Post post, Authentication authentication) {
-        return postService.createPost(post, authentication.getName());
+    public ResponseEntity<?> addPost(@RequestBody Post post, Authentication authentication) {
+        return new ResponseEntity<>(postService.createPost(post, authentication.getName()), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
@@ -75,8 +83,7 @@ public class PostController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUserById(@PathVariable String id, Authentication authentication) {
-        return postService.deletePost(id, authentication.getName());
-       // return postService.deletePost(id, "basswallace@eargo.com");
+    public ResponseEntity<?> deletePostById(@PathVariable String id, Authentication authentication) {
+        return ResponseEntity.ok(postService.deletePost(id, authentication.getName()));
     }
 }
