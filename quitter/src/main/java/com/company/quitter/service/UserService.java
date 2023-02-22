@@ -1,5 +1,6 @@
 package com.company.quitter.service;
 
+import com.company.quitter.model.Follower;
 import com.company.quitter.model.Profile;
 import com.company.quitter.model.User;
 import com.company.quitter.repository.UserRepository;
@@ -63,8 +64,21 @@ public class UserService {
             return "This user has been deleted or wrong username";
 
         User user = userToFollow.get();
-        currUser.getFollowers().add(user);
-        user.getFollowing().add(currUser);
+        currUser.getFollowers().add(Follower.builder()
+                .id(user.getId())
+                .name(user.getUserProfile().getName())
+                .surname(user.getUserProfile().getSurname())
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .build());
+
+        user.getFollowing().add(Follower.builder()
+                .id(currUser.getId())
+                .name(currUser.getUserProfile().getName())
+                .surname(currUser.getUserProfile().getSurname())
+                .email(currUser.getEmail())
+                .username(currUser.getUsername())
+                .build());
 
         userRepository.save(currUser);
         userRepository.save(user);

@@ -40,10 +40,8 @@ public class User implements UserDetails {
     private String password;
     private String registrationDate;
     private Profile userProfile;
-    @DBRef
-    private List<User> followers;
-    @DBRef
-    private List<User> following;
+    private List<Follower> followers;
+    private List<Follower> following;
     @DBRef
     private List<Post> posts;
 
