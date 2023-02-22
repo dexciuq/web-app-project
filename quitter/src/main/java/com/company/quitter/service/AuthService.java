@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 
 @Service
@@ -48,8 +49,8 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .userProfile(userProfile)
                 .posts(new ArrayList<>())
-                .following(new ArrayList<>())
-                .followers(new ArrayList<>())
+                .following(new HashSet<>())
+                .followers(new HashSet<>())
                 .build();
 
         var jwtToken = tokenService.generateToken(user);

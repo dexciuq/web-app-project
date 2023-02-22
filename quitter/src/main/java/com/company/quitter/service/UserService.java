@@ -7,7 +7,6 @@ import com.company.quitter.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -84,5 +83,36 @@ public class UserService {
         userRepository.save(user);
 
         return "User with username " + user.getUsername() + " was successfully add to your following list";
+    }
+
+    public String unfollow(String username, String followUsername) {
+        User currUser = userRepository.findByUsername(username).get();
+        Optional<User> userToUnfollow = userRepository.findByUsername(followUsername);
+
+        if (userToUnfollow.isEmpty())
+            return "This user has been deleted or wrong username";
+
+        User user = userToUnfollow.get();
+
+        currUser.getFollowers().remove(Follower.builder()
+                .id(user.getId())
+                .name(user.getUserProfile().getName())
+                .surname(user.getUserProfile().getSurname())
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .build());
+
+        user.getFollowing().remove(Follower.builder()
+                .id(currUser.getId())
+                .name(currUser.getUserProfile().getName())
+                .surname(currUser.getUserProfile().getSurname())
+                .email(currUser.getEmail())
+                .username(currUser.getUsername())
+                .build());
+
+        userRepository.save(currUser);
+        userRepository.save(user);
+
+        return "You just unfollowed user with username: " + user.getUsername();
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -39,8 +40,8 @@ public class User implements UserDetails {
     private String password;
     private String registrationDate;
     private Profile userProfile;
-    private List<Follower> followers;
-    private List<Follower> following;
+    private Set<Follower> followers;
+    private Set<Follower> following;
     @DBRef
     private List<Post> posts;
 

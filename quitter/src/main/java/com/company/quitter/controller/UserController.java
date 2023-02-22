@@ -56,6 +56,11 @@ public class UserController {
         return new ResponseEntity<>(userService.follow(authentication.getName(), username), HttpStatus.ACCEPTED);
     }
 
+    @PostMapping("/unfollow/{username}")
+    public ResponseEntity<?> unfollowUser(Authentication authentication, @PathVariable String username) {
+        return new ResponseEntity<>(userService.unfollow(authentication.getName(), username), HttpStatus.ACCEPTED);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable String id) {
         return ResponseEntity.ok(userService.getUserById(id));
