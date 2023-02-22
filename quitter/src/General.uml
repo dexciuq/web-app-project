@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="169.0" y="679.5">com.company.quitter.service.LogoutService</node>
+    <node x="-59.5" y="679.5">com.company.quitter.util.JwtAuthenticationFilter</node>
+    <node x="174.5" y="359.5">com.company.quitter.model.Profile</node>
+    <node x="148.5" y="279.5">com.company.quitter.controller.UserController</node>
+    <node x="103.5" y="119.5">com.company.quitter.model.Comment</node>
+    <node x="-32.0" y="279.5">com.company.quitter.config.SecurityConfig</node>
+    <node x="140.5" y="439.5">com.company.quitter.repository.TokenRepository</node>
+    <node x="73.0" y="39.5">com.company.quitter.model.enumiration.UserRole</node>
+    <node x="-176.0" y="759.5">com.company.quitter.util.request</node>
+    <node x="239.5" y="119.5">com.company.quitter.Main</node>
+    <node x="-33.5" y="439.5">com.company.quitter.repository.PostRepository</node>
+    <node x="115.5" y="599.5">com.company.quitter.config.ApplicationConfig</node>
+    <node x="-41.5" y="119.5">com.company.quitter.service.PostService</node>
+    <node x="158.0" y="199.5">com.company.quitter.service.UserService</node>
+    <node x="-52.5" y="599.5">com.company.quitter.controller.AuthController</node>
+    <node x="146.0" y="519.5">com.company.quitter.repository.UserRepository</node>
+    <node x="220.0" y="39.5">com.company.quitter.model.enumiration.TokenType</node>
+    <node x="2.5" y="359.5">com.company.quitter.controller.HomeController</node>
+    <node x="-40.0" y="519.5">com.company.quitter.service.CommentService</node>
+    <node x="-177.5" y="359.5">com.company.quitter.util.UserDeserializer</node>
+    <node x="231.5" y="-15.0">com.company.quitter.model.enumiration.Degree</node>
+    <node x="-78.5" y="39.5">com.company.quitter.model.User</node>
+    <node x="-178.0" y="39.5">com.company.quitter.model.Post</node>
+    <node x="-184.0" y="679.5">com.company.quitter.model.Token</node>
+    <node x="-9.0" y="199.5">com.company.quitter.util.UserSerializer</node>
+    <node x="-172.5" y="439.5">com.company.quitter.model.Follower</node>
+    <node x="-171.0" y="199.5">com.company.quitter.controller.PostController</node>
+    <node x="172.5" y="759.5">com.company.quitter.service.TokenService</node>
+    <node x="-183.0" y="279.5">com.company.quitter.service.AuthService</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Compact" zoom="1.1493506493506493" showDependencies="false" x="79.5" y="506.3502824858757" />
+  <SelectedNodes>
+    <node>com.company.quitter.util.request</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

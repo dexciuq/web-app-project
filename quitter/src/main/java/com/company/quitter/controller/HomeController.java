@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HomeController {
-
     @GetMapping("/healthcheck")
     public ResponseEntity<?> healthCheck() {
         return ResponseEntity.ok("Server running on port :8080");

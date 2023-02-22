@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="747.5" y="1196.5">com.company.quitter.service.LogoutService</node>
+    <node x="392.0" y="-114.5">com.company.quitter.model.enumiration.TokenType</node>
+    <node x="-84.5" y="837.0">com.company.quitter.repository.UserRepository</node>
+    <node x="625.5" y="334.5">com.company.quitter.config.SecurityConfig</node>
+    <node x="382.0" y="125.5">com.company.quitter.model.Token</node>
+    <node x="564.0" y="837.0">com.company.quitter.repository.TokenRepository</node>
+    <node x="819.5" y="1357.5">com.company.quitter.util.request.AuthenticationRequest</node>
+    <node x="194.5" y="737.5">com.company.quitter.service.TokenService</node>
+    <node x="899.5" y="770.5">com.company.quitter.util.request.AuthenticationResponse</node>
+    <node x="1219.0" y="932.5">com.company.quitter.util.request.RegisterRequest</node>
+    <node x="-144.5" y="1163.5">com.company.quitter.config.ApplicationConfig</node>
+    <node x="339.0" y="1119.5">com.company.quitter.service.AuthService</node>
+    <node x="353.0" y="1445.5">com.company.quitter.controller.AuthController</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.company.quitter.service.AuthService" target="com.company.quitter.repository.UserRepository" relationship="TO_ONE">
+      <point x="0.0" y="-115.5" />
+      <point x="527.0" y="1095.0" />
+      <point x="87.0" y="1095.0" />
+      <point x="40.0" y="38.0" />
+    </edge>
+    <edge source="com.company.quitter.model.Token" target="com.company.quitter.model.enumiration.TokenType" relationship="TO_ONE">
+      <point x="0.0" y="-269.5" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="com.company.quitter.controller.AuthController" target="com.company.quitter.service.AuthService" relationship="TO_ONE">
+      <point x="0.0" y="-49.5" />
+      <point x="0.0" y="115.5" />
+    </edge>
+    <edge source="com.company.quitter.service.AuthService" target="com.company.quitter.repository.TokenRepository" relationship="TO_ONE">
+      <point x="0.0" y="-115.5" />
+      <point x="527.0" y="1075.0" />
+      <point x="707.0" y="1075.0" />
+      <point x="0.0" y="38.0" />
+    </edge>
+    <edge source="com.company.quitter.service.AuthService" target="com.company.quitter.service.TokenService" relationship="TO_ONE">
+      <point x="0.0" y="-115.5" />
+      <point x="527.0" y="1055.0" />
+      <point x="367.0" y="1055.0" />
+      <point x="0.0" y="137.5" />
+    </edge>
+    <edge source="com.company.quitter.service.LogoutService" target="com.company.quitter.repository.TokenRepository" relationship="TO_ONE">
+      <point x="0.0" y="-38.5" />
+      <point x="947.0" y="1095.0" />
+      <point x="707.0" y="1095.0" />
+      <point x="0.0" y="38.0" />
+    </edge>
+    <edge source="com.company.quitter.config.ApplicationConfig" target="com.company.quitter.repository.UserRepository" relationship="TO_ONE">
+      <point x="0.0" y="-71.5" />
+      <point x="40.0" y="38.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.5267857142857143" showDependencies="true" x="727.4067796610177" y="899.6440677966104" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
