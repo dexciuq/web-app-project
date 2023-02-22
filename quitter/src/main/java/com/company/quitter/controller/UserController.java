@@ -15,17 +15,14 @@ import java.util.List;
 @RequestMapping("/users")
 @AllArgsConstructor
 public class UserController {
-
     private final MongoTemplate mongoTemplate;
     private final UserService userService;
-    
     @GetMapping
     public List<User> getAllUsers(
             @RequestParam(name = "sort", required = false) String sortBy,
             @RequestParam(name = "direction", required = false) String sortDirection,
             @RequestParam(name = "page", required = false) Integer page,
             @RequestParam(name = "page_size", required = false) Integer pageSize) {
-
         Query query = new Query();
         if (sortBy != null) {
             Sort sort = Sort.by(sortDirection.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);

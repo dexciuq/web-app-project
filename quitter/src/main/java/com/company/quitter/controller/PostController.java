@@ -6,7 +6,11 @@ import com.company.quitter.service.PostService;
 import com.company.quitter.service.UserService;
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.http.parser.Authorization;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +20,25 @@ import java.util.List;
 @RequestMapping("/posts")
 @AllArgsConstructor
 public class PostController {
+    private final MongoTemplate mongoTemplate;
     private final PostService postService;
-
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Post> getAllPosts() {
-        return postService.getAllPosts();
+    @GetMapping
+    public List<Post> getAllPosts(
+            @RequestParam(name = "sort", required = false) String sortBy,
+            @RequestParam(name = "direction", required = false) String sortDirection,
+            @RequestParam(name = "page", required = false) Integer page,
+            @RequestParam(name = "page_size", required = false) Integer pageSize) {
+        Query query = new Query();
+        if (sortBy != null) {
+            Sort sort = Sort.by(sortDirection.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
+            query.with(sort);
+        }
+        if (page != null && pageSize != null) {
+            if (page < 1) page = 1;
+            query.skip((page - 1) * pageSize);
+            query.limit(pageSize);
+        }
+        return mongoTemplate.find(query, Post.class);
     }
 
     @GetMapping("/sort")
@@ -36,16 +54,6 @@ public class PostController {
         else return postService.getPostsByTitle(titleName);
     }
 
-//    @GetMapping("/search")
-//    public List<Post> getPostsByTitle(@RequestParam(value = "field") String field) {
-//        return postService.getPostsByTitle(field);
-//    }
-
-//    @GetMapping("/search")
-//    public User getUserByUsername(@RequestParam(value = "username") String username) {
-//        return userService.getUserByUsername(username);
-//    }
-
     @GetMapping("/{id}")
     public Post getPostById(@PathVariable String id) {
         return postService.getPostById(id);
@@ -53,15 +61,22 @@ public class PostController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Post addPost(@RequestBody Post post) {
-        return postService.createPost(post, "basswallace@eargo.com");
+    public Post addPost(@RequestBody Post post, Authentication authentication) {
+        return postService.createPost(post, authentication.getName());
     }
 
     @PatchMapping("/{id}")
-    public Post updatePost(@PathVariable String id, @RequestBody Post post) {return postService.partialUpdatePost(id, post); }
+    public ResponseEntity<?> updatePost(@PathVariable String id, @RequestBody Post post, Authentication authentication) {
+        Post postToUpdate = postService.partialUpdatePost(id, post, authentication.getName());
+
+        if (postToUpdate != null) return ResponseEntity.ok(postToUpdate);
+
+        return new ResponseEntity<>("You are not the owner of this post.", HttpStatus.BAD_REQUEST);
+    }
 
     @DeleteMapping("/{id}")
-    public String deleteUserById(@PathVariable String id) {
-        return postService.deletePost(id, "basswallace@eargo.com");
+    public String deleteUserById(@PathVariable String id, Authentication authentication) {
+        return postService.deletePost(id, authentication.getName());
+       // return postService.deletePost(id, "basswallace@eargo.com");
     }
 }
