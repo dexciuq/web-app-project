@@ -1,7 +1,6 @@
 package com.company.quitter.service;
 
 import com.company.quitter.Main;
-import com.company.quitter.model.Post;
 import com.company.quitter.model.Profile;
 import com.company.quitter.model.User;
 import com.company.quitter.model.enumiration.UserRole;

@@ -58,7 +58,9 @@ public class PostController {
     }
 
     @PatchMapping("/{id}")
-    public Post updatePost(@PathVariable String id, @RequestBody Post post) {return postService.partialUpdatePost(id, post); }
+    public Post updatePost(@PathVariable String id, @RequestBody Post post) {
+        return postService.partialUpdatePost(id, post);
+    }
 
     @DeleteMapping("/{id}")
     public String deleteUserById(@PathVariable String id, Authentication authentication) {

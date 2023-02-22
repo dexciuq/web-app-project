@@ -43,7 +43,6 @@ public class AuthService {
                 .userRole(UserRole.USER)
                 .username(request.getUsername())
                 .email(request.getEmail())
-                .username(request.getUsername())
                 .phoneNumber(request.getPhoneNumber())
                 .registrationDate(LocalDateTime.now().format(Main.dataFormatter))
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -65,11 +64,11 @@ public class AuthService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
-                request.getEmail(),
+                request.getUsername(),
                 request.getPassword()
             )
         );
-        Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
+        Optional<User> optionalUser = userRepository.findByUsername(request.getUsername());
         if (optionalUser.isEmpty()) throw new IllegalArgumentException("User not found");
 
         User user = optionalUser.get();
