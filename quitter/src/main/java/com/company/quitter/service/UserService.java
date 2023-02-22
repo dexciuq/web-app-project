@@ -1,5 +1,6 @@
 package com.company.quitter.service;
 
+import com.company.quitter.model.Follower;
 import com.company.quitter.model.Profile;
 import com.company.quitter.model.User;
 import com.company.quitter.repository.UserRepository;
@@ -25,7 +26,7 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public Optional<User> partialUpdateUser(String id, User body) {
+    public Optional<User> update(String id, User body) {
         Optional<User> optional = getUserById(id);
         if (optional.isEmpty())
             return Optional.empty();
@@ -49,8 +50,69 @@ public class UserService {
         return Optional.of(user);
     }
 
-    public String deleteUser(String id) {
+    public String delete(String id) {
         userRepository.deleteById(id);
         return "User has been successfully by id " + id;
+    }
+
+    public String follow(String username, String followUsername) {
+        User currUser = userRepository.findByUsername(username).get();
+        Optional<User> userToFollow = userRepository.findByUsername(followUsername);
+
+        if (userToFollow.isEmpty())
+            return "This user has been deleted or wrong username";
+
+        User user = userToFollow.get();
+        currUser.getFollowers().add(Follower.builder()
+                .id(user.getId())
+                .name(user.getUserProfile().getName())
+                .surname(user.getUserProfile().getSurname())
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .build());
+
+        user.getFollowing().add(Follower.builder()
+                .id(currUser.getId())
+                .name(currUser.getUserProfile().getName())
+                .surname(currUser.getUserProfile().getSurname())
+                .email(currUser.getEmail())
+                .username(currUser.getUsername())
+                .build());
+
+        userRepository.save(currUser);
+        userRepository.save(user);
+
+        return "User with username " + user.getUsername() + " was successfully add to your following list";
+    }
+
+    public String unfollow(String username, String followUsername) {
+        User currUser = userRepository.findByUsername(username).get();
+        Optional<User> userToUnfollow = userRepository.findByUsername(followUsername);
+
+        if (userToUnfollow.isEmpty())
+            return "This user has been deleted or wrong username";
+
+        User user = userToUnfollow.get();
+
+        currUser.getFollowers().remove(Follower.builder()
+                .id(user.getId())
+                .name(user.getUserProfile().getName())
+                .surname(user.getUserProfile().getSurname())
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .build());
+
+        user.getFollowing().remove(Follower.builder()
+                .id(currUser.getId())
+                .name(currUser.getUserProfile().getName())
+                .surname(currUser.getUserProfile().getSurname())
+                .email(currUser.getEmail())
+                .username(currUser.getUsername())
+                .build());
+
+        userRepository.save(currUser);
+        userRepository.save(user);
+
+        return "You just unfollowed user with username: " + user.getUsername();
     }
 }
