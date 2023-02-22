@@ -1,7 +1,9 @@
 package com.company.quitter.controller;
 
 import com.company.quitter.model.User;
+import com.company.quitter.service.TokenService;
 import com.company.quitter.service.UserService;
+import com.company.quitter.util.request.AuthenticationResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final MongoTemplate mongoTemplate;
     private final UserService userService;
+    private final TokenService tokenService;
+
     @GetMapping
     public ResponseEntity<?> getAllUsers(
             @RequestParam(name = "sort", required = false) String sortBy,
@@ -34,6 +38,12 @@ public class UserController {
             query.limit(pageSize);
         }
         return ResponseEntity.ok(mongoTemplate.find(query, User.class));
+    }
+
+    @PostMapping("/token")
+    public ResponseEntity<?> getUserByToken(@RequestBody AuthenticationResponse response) {
+        String username = tokenService.extractUsername(response.getToken());
+        return ResponseEntity.ok(userService.getUserByUsername(username));
     }
 
     @GetMapping("/search")
