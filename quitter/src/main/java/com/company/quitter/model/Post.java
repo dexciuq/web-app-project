@@ -1,12 +1,17 @@
 package com.company.quitter.model;
 
-import com.company.quitter.Main;
+import com.company.quitter.util.UserSerializer;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -15,6 +20,9 @@ import java.util.Set;
 public class Post {
     @Id
     private String id;
+    @DBRef
+    @JsonSerialize(using = UserSerializer.class)
+    private User postOwner;
     private String title;
     private String description;
     private String imageURL;
@@ -24,6 +32,7 @@ public class Post {
     private String creationDate;
 
     public Post(String id,
+                User postOwner,
                 String title,
                 String description,
                 String imageURL,
@@ -32,6 +41,7 @@ public class Post {
                 String creationDate,
                 int likeCount) {
         this.id = id;
+        this.postOwner = postOwner;
         this.title = title;
         this.description = description;
         this.imageURL = imageURL;

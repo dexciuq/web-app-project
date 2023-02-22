@@ -1,6 +1,7 @@
 package com.company.quitter.model;
 
 import com.company.quitter.model.enumiration.UserRole;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,10 @@ import java.util.List;
 @Document(collection = "users")
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class User implements UserDetails {
     @Id
     private String id;
@@ -30,6 +35,7 @@ public class User implements UserDetails {
     @Indexed(unique = true)
     private String email;
     private String phoneNumber;
+    @JsonIgnore
     private String password;
     private String registrationDate;
     private Profile userProfile;

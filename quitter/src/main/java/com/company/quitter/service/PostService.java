@@ -35,36 +35,34 @@ public class PostService {
         return postRepository.findAll(Sort.by(direction, field));
     }
 
+    // Creates a new post, sets all the default values in the appropriate fields and adds the ObjectID to the DBRef list
+    // of posts in the user model.
     public Post createPost(Post post, String username) {
+        // Finding the user by the username.
+        User user = userService.getUserByUsername(username);
+        // Adding the owner based on the username string.
+        post.setPostOwner(user);
 
-        User user = userService.getUserByUsername(username).get();
-
-        System.out.println(user);
-        System.out.println(post.getTitle());
-
+        // Default like count is 0.
         post.setLikeCount(0);
+        // Recording the creation date, which is now.
         post.setCreationDate(LocalDateTime.now().format(Main.dataFormatter));
+        // Creating an empty array of comments.
         post.setComments(new ArrayList<>());
 
         // Saving the post in the MongoDB, now we have the ID and can add it to the array of posts in the User model.
         Post postToSave = postRepository.save(post);
 
-        String postID = post.getId();
-
+        // Creating a new list of posts from the existing one.
         List<Post> newPostsList = user.getPosts();
-
+        // Adding the current post.
         newPostsList.add(postToSave);
-
+        // Updating the posts list in the user.
         user.setPosts(newPostsList);
-
-//        for (Post posted:user.getPosts()
-//             ) {
-//            System.out.println(posted.toString());
-//        }
-
+        // Saving the user in the DB.
         userRepository.save(user);
 
-        return postToSave;
+        return post;
     }
 
     public Post getPostById(String id) {
@@ -79,8 +77,15 @@ public class PostService {
         return postRepository.findByTag(tag);
     }
 
-    public Post partialUpdatePost(String id, Post body) {
+    public Post partialUpdatePost(String id, Post body, String email) {
+        User user = userService.getUserByEmail(email);
         Post post = getPostById(id);
+
+        if (!isOwner(user, post))
+        {
+            System.out.println("You are not the owner of the post.");
+            return null;
+        }
 
         if (body.getTitle() != null) post.setTitle(body.getTitle());
         if (body.getDescription() != null) post.setDescription(body.getDescription());
@@ -97,6 +102,9 @@ public class PostService {
         User user = userService.getUserByUsername(username).get();
 
         Post postToDelete = getPostById(id);
+
+        if (!isOwner(user, postToDelete)) return "You are not the owner of this post.";
+
         user.getPosts().remove(postToDelete);
         userRepository.save(user);
 
@@ -104,5 +112,7 @@ public class PostService {
         return "Post has been successfully deleted by id " + id;
     }
 
-
+    private boolean isOwner(User userToCheck, Post post) {
+        return post.getPostOwner().equals(userToCheck);
+    }
 }
