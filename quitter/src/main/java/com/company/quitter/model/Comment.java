@@ -2,6 +2,8 @@ package com.company.quitter.model;
 
 import com.company.quitter.Main;
 import com.company.quitter.model.enumiration.UserRole;
+import com.company.quitter.util.UserSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -13,27 +15,27 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@Document(collection = "comments")
 public class Comment {
-    @Id
-    private String id;
-    private List<Comment> comments;
-    // @DBRef
-    private String userID;
+    private int id;
+    @DBRef
+    @JsonSerialize(using = UserSerializer.class)
+    private User commentOwner;
     private String text;
     private int likeCount;
     private String creationDate;
 
-    public Comment(String id,
-                   List<Comment> comments,
-                   String userID,
+    public Comment(int id,
+                   User commentOwner,
                    String text,
                    int likeCount) {
         this.id = id;
-        this.comments = comments;
-        this.userID = userID;
+        this.commentOwner = commentOwner;
         this.text = text;
         this.likeCount = likeCount;
         this.creationDate = LocalDateTime.now().format(Main.dataFormatter);
+    }
+
+    public boolean equals(User user) {
+        return this.commentOwner.getId().equals(user.getId());
     }
 }

@@ -1,7 +1,9 @@
 package com.company.quitter.controller;
 
+import com.company.quitter.model.Comment;
 import com.company.quitter.model.Post;
 import com.company.quitter.model.User;
+import com.company.quitter.service.CommentService;
 import com.company.quitter.service.PostService;
 import com.company.quitter.service.UserService;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,7 @@ import java.util.List;
 public class PostController {
     private final MongoTemplate mongoTemplate;
     private final PostService postService;
+    private final CommentService commentService;
     @GetMapping
     public ResponseEntity<?> getAllPosts(
             @RequestParam(name = "sort", required = false) String sortBy,
@@ -40,19 +43,6 @@ public class PostController {
         }
         return ResponseEntity.ok(mongoTemplate.find(query, Post.class));
     }
-
-//    @GetMapping("/sort")
-//    public List<Post> getSortedByField(@RequestParam(value = "field") String field) {
-//        return postService.getAllPosts(field);
-//    }
-
-//    @GetMapping("/search")
-//    public List<Post> getPostsByTag(@RequestParam(value = "tag", required = false) String tagName,
-//                                    @RequestParam(value = "title", required = false) String titleName) {
-//
-//        if (tagName != null) return postService.getPostsByTag(tagName);
-//        else return postService.getPostsByTitle(titleName);
-//    }
 
     @GetMapping("/search")
     public ResponseEntity<?> getPostsByTag(@RequestParam(value = "tag", required = false) String tagName,
@@ -85,5 +75,23 @@ public class PostController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePostById(@PathVariable String id, Authentication authentication) {
         return ResponseEntity.ok(postService.deletePost(id, authentication.getName()));
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<?> addComment(@PathVariable String id, @RequestBody Comment comment,
+                                        Authentication authentication) {
+        return new ResponseEntity<>(commentService.createComment(id, comment, authentication.getName()), HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/{id}/{commentID}")
+    public ResponseEntity<?> updateComment(@PathVariable String id, @PathVariable int commentID,
+                                           @RequestBody Comment comment, Authentication authentication) {
+        return new ResponseEntity<>(commentService.updateComment(id, commentID, comment, authentication.getName()), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}/{commentID}")
+    public ResponseEntity<?> deleteComment(@PathVariable String id, @PathVariable int commentID,
+                                           Authentication authentication) {
+        return ResponseEntity.ok(commentService.deleteComment(id, commentID, authentication.getName()));
     }
 }
