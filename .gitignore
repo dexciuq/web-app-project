@@ -11,6 +11,7 @@ quitter/.idea/workspace.xml
 .idea/
 *.iml
 *.iws
+quitter/target/
 
 # Mac
 .DS_Store
