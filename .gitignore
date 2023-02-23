@@ -18,3 +18,8 @@ quitter/.idea/workspace.xml
 # Maven
 log/
 target/
+
+# Front
+.parcel-cache
+dist
+node_modules
